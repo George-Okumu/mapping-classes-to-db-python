@@ -53,16 +53,32 @@ class Song:
         mine = [cls.new_from_db(row) for row in all]
         return [mine.__dict__ for mine in mine] #returning the objects as objects
     
+    #Less convinient method
+    # @classmethod
+    # def find_music_by_name(cls, name):
+    #     all_things = cls.get_all()
+    #     for i in all_things:
+    #         if(i['name'] == name):
+    #             return i
+    #         else:
+    #             return "Name not found"
+
     @classmethod
     def find_music_by_name(cls, name):
-        all_things = cls.get_all()
-        for i in all_things:
-            if(i['name'] == name):
-                return i
-            else:
-                return "Name not found"
+        sql = """
+            select * from songs where name = ? LIMIT 1
+            """
+        song_found = CURSOR.execute(sql, (name,)).fetchone()
+        """
+        Bound parameters must be passed to the execute statement as a 
+        sequence data type. This is typically performed with tuples to match the 
+        format that results are returned in. A tuple containing only one element must 
+        have a comma after that element, otherwise it is interpreted as a grouped statement 
+        The fetchone() method returns the first element from fetchall().
+        
+        """
+        return cls.new_from_db(song_found)
     
-
     
     @classmethod
     def drop_table(cls):

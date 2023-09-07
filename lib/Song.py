@@ -17,9 +17,11 @@ class Song:
             """
         CURSOR.execute(sql)
 
+
     def save(self):
         sql = """
                 insert into songs(name, album) values (? , ?)
             """
         
-        CURSOR.execute(sql(self.name, self.album))
+        CURSOR.execute(sql, (self.name, self.album))
+        self.id = CURSOR.execute("SELECT last_insert_rowid() FROM songs").fetchone()[0]

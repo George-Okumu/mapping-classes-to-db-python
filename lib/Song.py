@@ -52,7 +52,15 @@ class Song:
         all = CURSOR.execute(sql).fetchall()
         mine = [cls.new_from_db(row) for row in all]
         return [mine.__dict__ for mine in mine] #returning the objects as objects
-        
+    
+    @classmethod
+    def find_music_by_name(cls, name):
+        all_things = cls.get_all()
+        for i in all_things:
+            if(i['name'] == name):
+                return i
+            else:
+                return "Name not found"
     
 
     

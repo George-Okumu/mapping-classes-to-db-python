@@ -16,3 +16,10 @@ class Song:
                     )
             """
         CURSOR.execute(sql)
+
+    def save(self):
+        sql = """
+                insert into songs(name, album) values (? , ?)
+            """
+        
+        CURSOR.execute(sql(self.name, self.album))
